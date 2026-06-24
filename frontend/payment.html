@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Membership Checkout</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f8fafc; padding: 40px; display: flex; justify-content: center; }
+        .pay-card { max-width: 450px; width: 100%; background: white; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+        h2 { color: #ff4d6d; margin-bottom: 10px; }
+        .price { font-size: 32px; font-weight: 700; margin: 20px 0; color: #0f172a; }
+        input { width: 100%; padding: 12px; margin-top: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: #10b981; color: white; border: none; font-weight: 600; border-radius: 8px; margin-top: 15px; cursor: pointer; font-size: 16px; }
+        #status-msg { margin-top: 15px; font-size: 14px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+<div class="pay-card">
+    <h2>Unlock Premium Matching</h2>
+    <p style="color:#64748b;">Complete registration fees to activate your matching database visibility.</p>
+    <div class="price">$19.99 / Single Access</div>
+
+    <input type="text" id="refInput" placeholder="Enter Transaction ID / Reference Code">
+    <button onclick="submitPayment()">Activate Account</button>
+    
+    <div id="status-msg"></div>
+</div>
+
+<script>
+    async function submitPayment() {
+        const userId = localStorage.getItem("pendingUserId");
+        const referenceId = document.getElementById("refInput").value;
+        const msg = document.getElementById("status-msg");
+
+        if(!referenceId) {
+            msg.textContent = "Please enter a valid reference ID.";
+            msg.style.color = "#ef4444";
+            return;
+        }
+
+        const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+            ? "http://localhost:3000"
+            : window.location.origin;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/payments/verify-payment`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, referenceId })
+            });
+            const data = await response.json();
+
+            if(data.success) {
+                msg.textContent = "🎉 Premium Tier Activated! Matches are being analyzed.";
+                msg.style.color = "#10b981";
+                localStorage.removeItem("pendingUserId");
+            } else {
+                msg.textContent = "Verification Failed: " + data.message;
+                msg.style.color = "#ef4444";
+            }
+        } catch(e) {
+            msg.textContent = "Error communicating with billing systems.";
+        }
+    }
+</script>
+</body>
+</html>

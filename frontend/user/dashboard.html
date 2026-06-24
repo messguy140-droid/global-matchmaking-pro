@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Matchmaking | Client Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; padding: 20px; display: flex; justify-content: center; }
+        .dashboard-container { max-width: 700px; width: 100%; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); margin-top: 20px; }
+        .header-section { text-align: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; margin-bottom: 25px; }
+        h1 { color: #ff4d6d; font-size: 26px; }
+        .status-badge { inline-size: max-content; margin: 12px auto; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; background: #fef3c7; color: #d97706; display: flex; align-items: center; gap: 6px; }
+        .grid-section { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 25px; }
+        @media (min-width: 600px) { .grid-section { grid-template-columns: 1fr 1fr; } }
+        .card { border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; background: #ffffff; }
+        .card h3 { margin-bottom: 10px; font-size: 16px; color: #334155; display: flex; align-items: center; gap: 8px; }
+        .premium-banner { background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%); border: none; padding: 25px; text-align: center; border-radius: 16px; margin-bottom: 25px; }
+        .premium-banner h2 { color: #ff4d6d; margin-bottom: 8px; font-size: 20px; }
+        .premium-banner p { font-size: 14px; color: #475569; margin-bottom: 15px; }
+        .btn-whatsapp { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #25d366; color: white; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: transform 0.2s; }
+        .btn-whatsapp:hover { transform: scale(1.02); }
+        .contact-list { list-style: none; padding: 0; }
+        .contact-list li { margin: 12px 0; font-size: 14px; color: #475569; }
+        .contact-list a { color: #25d366; font-weight: 600; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="header-section">
+        <h1>Welcome Back, <span id="clientName">Member</span>!</h1>
+        <div class="status-badge">
+            ⏳ Account Status: Profile Under Review
+        </div>
+        <p style="color: #64748b; font-size: 14px; margin-top: 5px;">Our AI matchmaking engine and administrative team are currently evaluating your profile data.</p>
+    </div>
+
+    <div class="premium-banner">
+        <h2>🚀 Skip the Queue: Connect Instantly</h2>
+        <p>Want to unlock your first verified compatibility match right away? Upgrade to premium to initiate active outreach and direct coordination mappings.</p>
+        <a id="premiumLink" href="#" target="_blank" class="btn-whatsapp">
+            💬 Upgrade to Premium via WhatsApp
+        </a>
+    </div>
+
+    <div class="grid-section">
+        <div class="card">
+            <h3>📞 Global Matchmaking Helpdesk</h3>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 10px;">Reach our direct verification desk to update files, submit photos, or coordinate pairings:</p>
+            <ul class="contact-list">
+                <li>🇬🇧 <b>UK Office Desk:</b> <br><a href="https://wa.me/447529576642" target="_blank">+44 7529 576642</a></li>
+                <li>🇵🇭 <b>PH Matching Desk:</b> <br><a href="https://wa.me/639090312359" target="_blank">+63 90903 12359</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📢 Community Guidelines</h3>
+            <p style="font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 8px;">• Keep your WhatsApp contact lines open for matching updates.</p>
+            <p style="font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 8px;">• Premium status lets you request hand-picked connection requests from our database.</p>
+            <p style="font-size: 13px; color: #475569; line-height: 1.5;">• Profiles with fake names or missing photos will be filtered out by the system.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Grab cached user context information from registration process
+    document.addEventListener("DOMContentLoaded", () => {
+        const userName = localStorage.getItem("registeredClientName") || "Premium Client";
+        document.getElementById("clientName").textContent = userName;
+
+        // Auto-configure custom text string for conversion upgrades
+        const customMsg = encodeURIComponent(`Hi, I'd like to upgrade my Global Matchmaking account to premium for my first connection. My name is ${userName}.`);
+        document.getElementById("premiumLink").href = `https://wa.me/447529576642?text=${customMsg}`;
+    });
+</script>
+
+</body>
+</html>
